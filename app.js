@@ -98,12 +98,8 @@ app.post('/login',function(req,res){
 				//res.send(users.val().email + '\n' + email);
 				console.log("BREAK");
 			});
-			
+		});
 	});
-	});
-
-
-
 });
 
 // routing
@@ -129,30 +125,54 @@ function sendFolder(folder,req,res)
 
 
 // usernames which are currently connected to the chat
-var usernames = {};
+//var usernames = {};
 
-// rooms which are currently available in chat
-var rooms = ['room1','room2','room3'];
 
 io.sockets.on('connection', function (socket) {
 	
 	// when the client emits 'adduser', this listens and executes
-	socket.on('adduser', function(username){
+	socket.on('adduser', function(username,room){
 		// store the username in the socket session for this client
 		socket.username = username;
 		// store the room name in the socket session for this client
-		socket.room = 'room1';
+		socket.room = room;
 		// add the client's username to the global list
-		usernames[username] = username;
+		var usernames = [];
+		var usersRef = firebase.database().ref("rooms").child(name).child("users");
+		usersRef.once("value", function(snapshot) {
+        
+        	usernames = snapshot.val();
+        	usernames[usernames.length] = username;
+    	});
+    	firebase.database().ref("rooms").child(name).child("users").set(usernames);
 		// send client to room 1
-		socket.join('room1');
+		socket.join(room);
 		// echo to client they've connected
-		socket.emit('updatechat', 'SERVER', 'you have connected to room1');
+		socket.emit('updatechat', 'SERVER', 'you have connected to ' + room);
 		// echo to room 1 that a person has connected to their room
-		socket.broadcast.to('room1').emit('updatechat', 'SERVER', username + ' has connected to this room');
-		socket.emit('updaterooms', rooms, 'room1');
+		var rooms;
+		ref("rooms").once("value", function(snapshot) {
+        	rooms = snapshot.val();
+    	});
+		socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
+		socket.emit('updaterooms', rooms, room);
 	});
 	
+	socket.on('addroom', function(psychId, name){
+		var room = {
+			"name" : name,
+			"psychId" : psychId,
+			"users" : []
+		}
+		var rooms;
+		ref("rooms").once("value", function(snapshot) {
+        	rooms = snapshot.val();
+    	});
+		socket.psychId = psychId;
+		socket.name = name;
+		firebase.database().ref("rooms").child(name).set(room);
+	});
+
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendchat', function (data) {
 		// we tell the client to execute 'updatechat' with 2 parameters
