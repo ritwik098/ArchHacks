@@ -49,36 +49,24 @@ ref.authWithCustomToken(token, function(error, authData) {
 app.post('/register',function(req,res){
 
 
-	var email = req.body.email;
-	var password = req.body.password;
-	var type = req.body.type;
+    
+    var type = req.body.type;
+    var id = req.body.id;
 
-	console.log(email);
-	console.log(password);
-	console.log(type);
-/*
+    //console.log(email);
+    //console.log(password);
+    console.log(type);
 
-	firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-	 	 // Handle Errors here.
-	  	var errorCode = error.code;
-	    var errorMessage = error.message;
+    var user = {
+    	"type":type
+    }
 
-	 	console.log(errorCode + ": " +errorMessage);
-	});
-
-*/
-	
-	firebase.database().ref('users').push({
-  	    email: email,
-    	password : password,
-   		type: type
+    firebase.database().ref("users").child(id).set(user);
+   
+   ref.once("value", function(snapshot) {
+        res.send("SUCCESS");
+        console.log(snapshot.val());
     });
-	console.log("Success");
-
-    ref.once("value", function(snapshot) {
- 		res.send("SUCCESS");
- 		console.log(snapshot.val());
-	});
 
 });
 

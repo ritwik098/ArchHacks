@@ -3,6 +3,8 @@
 	var data = [];
 	var register = false;	
 
+
+
 	app.config(function() {
 		var config = {
 		databaseURL: "https://counsl-dd6fe.firebaseio.com",
@@ -15,17 +17,20 @@
 		firebase.initializeApp(config);
 	});
 
-	app.controller('homeController', ['$scope','$http','$window','$firebaseAuth', function($scope,$http,$window, $firebaseAuth) {
-		$scope.homeTxt = "Login";
+	app.controller('homeController', ['$scope','$http','$window','$firebaseAuth', function($scope,$http,$window,$firebaseAuth, $firebaseObject, $firebaseArray) {
+		var FIREBASE_APP_URL = 'counsl-dd6fe.firebaseapp.com'
+		var firebaseRef = firebase.database().ref();
 		$scope.authObj = $firebaseAuth();
+		$scope.homeTxt = "Login";
 		$scope.status = "Submit";
 		$scope.success = false;
+		$scope.type = "user";
 		$scope.auth = {
-			username: "",
+			email: "",
 			password: "",
 		};
 		var subData = $.param({
-			username: $scope.auth.username,
+			email: $scope.auth.username,
 			password: $scope.auth.password
 		});
 
@@ -43,17 +48,32 @@
 			$scope.status = "Submitting...";
 			
 			if(!$scope.register){
-				$scope.authObj.$signInWithEmailAndPassword($scope.auth.username, $scope.auth.password).then(function(firebaseUser) {
+				$scope.authObj.$signInWithEmailAndPassword($scope.auth.email, $scope.auth.password).then(function(firebaseUser) {
 				  	console.log("Signed in as:", firebaseUser.uid);
 				  	$scope.status = "Submit";
 					$scope.success = true;
-					$window.location.reload();
+
+					/*var ref = firebase.database().ref();
+  					var usersRef = ref.child("users");
+					usersRef.child(firebaseUser.uid).set({
+					  type: $scope.type
+					});*/
+					
+
+					var user  = {	
+					   type: $scope.type
+					};
+
+					firebaseRef.child("users").child(firebaseUser.uid).set(user);
+
+					//$window.location.reload();
+
 				}).catch(function(error) {
 					$scope.status = "Try Again";
 				  console.error("Authentication failed:", error);
 				});
 			} else if($scope.register){
-				$scope.authObj.$createUserWithEmailAndPassword($scope.auth.username, $scope.auth.password)
+				$scope.authObj.$createUserWithEmailAndPassword($scope.auth.email, $scope.auth.password)
 				.then(function(firebaseUser) {
 					$scope.status = "Registration Successful";
 					$scope.success = true;
