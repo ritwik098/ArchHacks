@@ -1,11 +1,23 @@
 (function() {
-	var app = angular.module('counsl', []);
+	var app = angular.module('counsl', ['firebase']);
 	var data = [];
 	var register = false;	
 
-	app.controller('homeController', ['$scope','$http','$window', function($scope,$http,$window) {
+	app.config(function() {
+		var config = {
+		databaseURL: "https://counsl-dd6fe.firebaseio.com",
+ //serviceAccount: "counsl-dd6fe-firebase-adminsdk-bdz8g-54f3eb9f39.json",
+ 		apiKey: "AIzaSyCN_z36yq6gMeEqjmSVjkNGNrtI_ClCv_s",
+		authDomain: "counsl-dd6fe.firebaseapp.com",
+        storageBucket: "counsl-dd6fe.appspot.com"
+        //messagingSenderId: "456446067935"  // Your Firebase Storage bucket ("*.appspot.com")
+		};
+		firebase.initializeApp(config);
+	});
+
+	app.controller('homeController', ['$scope','$http','$window','$firebaseAuth', function($scope,$http,$window, $firebaseAuth) {
 		$scope.homeTxt = "Login";
-		
+		$scope.authObj = $firebaseAuth();
 		$scope.status = "Submit";
 		$scope.success = false;
 		$scope.auth = {
@@ -31,35 +43,24 @@
 			$scope.status = "Submitting...";
 			
 			if(!$scope.register){
-				$http.post('/auth', $scope.auth).
-				success(function(data, status) {
-					if (data.success == true) {
-						$scope.status = "Submit";
-						$scope.success = true;
-						$window.location.reload();
-					} else {
-						$scope.status = "Try Again";
-						console.log(data);
-					}
-				}).error(function(data, status, headers, config) {
+				$scope.authObj.$signInWithEmailAndPassword($scope.auth.username, $scope.auth.password).then(function(firebaseUser) {
+				  	console.log("Signed in as:", firebaseUser.uid);
+				  	$scope.status = "Submit";
+					$scope.success = true;
+					$window.location.reload();
+				}).catch(function(error) {
 					$scope.status = "Try Again";
-					console.log(data);
-	
+				  console.error("Authentication failed:", error);
 				});
 			} else if($scope.register){
-				$http.post('/register', $scope.auth).
-				success(function(data, status) {
-					if (data.success == true) {
-						$scope.status = "Submit";
-						$scope.success = true;
-						$window.location.reload();
-					} else {
-						$scope.status = "Try Again";
-						console.log(data);
-					}
-				}).error(function(data, status, headers, config) {
+				$scope.authObj.$createUserWithEmailAndPassword($scope.auth.username, $scope.auth.password)
+				.then(function(firebaseUser) {
+					$scope.status = "Registration Successful";
+					$scope.success = true;
+					console.log("User " + firebaseUser.uid + " created successfully!");
+				}).catch(function(error) {
 					$scope.status = "Try Again";
-					console.log(data);
+					console.error("Error: ", error);
 				});
 			}
 		}
