@@ -1,0 +1,227 @@
+<!doctype html>
+
+<html lang="en" ng-app="counsl">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Counsl.me</title>
+
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css" type="text/css">
+    <link rel="stylesheet" href="css/styles.css">
+     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
+    <script src="js/jquery.min.js" type="text/javascript">
+</script>
+    <script src="js/wow.min.js" type="text/javascript">
+</script>
+<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <script type="text/javascript">
+new WOW().init();
+    </script>
+    <script type="text/javascript" src="js/angular.min.js">
+</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js" type="text/javascript">
+</script>
+    <script type="text/javascript" src="js/app.js">
+</script>
+
+
+    <style>
+    #view-source {
+      position: fixed;
+      display: block;
+      right: 0;
+      bottom: 0;
+      margin-right: 40px;
+      margin-bottom: 40px;
+      z-index: 900;
+    }
+    </style>
+  </head>
+  <body ng-controller="DashController as dashCtrl">
+    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+      <header class="demo-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title headTitle">Home</span>
+          <div class="mdl-layout-spacer"></div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+              <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-textfield__expandable-holder">
+              <input class="mdl-textfield__input" type="text" id="search" />
+              <label class="mdl-textfield__label" for="search">Enter your query...</label>
+            </div>
+          </div>
+          <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+            <a href="/signout"><li class="mdl-menu__item">Sign Out</li></a>
+          </ul>
+        </div>
+      </header>
+      <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+        <header class="demo-drawer-header">
+          <img src="images/user.jpg" class="demo-avatar">
+          <div class="demo-avatar-dropdown">
+            <span>John Doe</span>
+            <div class="mdl-layout-spacer"></div>
+            <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+              <i class="material-icons">arrow_drop_down</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+              <button class="mdl-menu__item">Lenovo B155</button>
+              <button class="mdl-menu__item">Home_PC</button>
+              <button class="mdl-menu__item">Add another device...</button>
+            </ul>
+          </div>
+        </header>
+        <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
+          <a class="mdl-navigation__link" href="" ng-click="screen=0;" ng-class="screen==0 ? 'navActive' : ''"><i class="mdl-color-text--blue-grey-400 material-icons">home</i>Home</a>
+          <a class="mdl-navigation__link" href="#" ng-click="screen=1;"><i class="mdl-color-text--blue-grey-400 material-icons">settings</i>Settings</a>
+           <!--<a class="mdl-navigation__link" href="" ng-click="screen=2;"><i class="mdl-color-text--blue-grey-400 material-icons">devices</i>Send Command</a>
+          
+         <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons">delete</i>Trash</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons">forum</i>Forums</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons">flag</i>Updates</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons">local_offer</i>Promos</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons">shopping_cart</i>Purchases</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons">people</i>Social</a>          <div class="mdl-layout-spacer"></div>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons">help_outline</i></a>-->
+
+        </nav>
+      </div>
+      
+      
+      <main class="mdl-layout__content mdl-color--grey-100" >
+
+        <div class="mdl-grid demo-content" ng-show="screen==0">
+          <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid sideTitleMargin" ng-controller="StorageCtrl">
+	          <h3 class="dashTitle">CURRENT SESSIONS</h3>
+	          <ul class="demo-list-three mdl-list">
+				  <li class="mdl-list__item mdl-list__item--three-line sessionListCard">
+				    <span class="mdl-list__item-primary-content">
+				      <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(images/co1.jpg)"></i>
+				      <span>Coping up with Depression</span>
+				      <span class="mdl-list__item-text-body">
+				        by Allie Jane
+				      </span>
+				    </span>
+				    <span class="mdl-list__item-secondary-content">
+				      <span>
+				        MWF 8:30PM
+				      </span>
+				      <span class="mdl-list__item-text-body">
+				      	34 joined
+				      </span>
+				    </span>
+				  </li>
+				  <li class="mdl-list__item mdl-list__item--three-line sessionListCard">
+				    <span class="mdl-list__item-primary-content">
+				      <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(images/co2.jpg)"></i>
+				      <span>Staying Alcohol Free</span>
+				      <span class="mdl-list__item-text-body">
+				        by Tom Johnson
+				      </span>
+				    </span>
+				    <span class="mdl-list__item-secondary-content">
+				      <span>
+				        TTF 6:00PM
+				      </span>
+				      <span class="mdl-list__item-text-body">
+				      	52 joined
+				      </span>
+				    </span>
+				  </li>
+				  
+				</ul>
+          </div>
+        </div>
+
+        <div class="mdl-grid demo-content" ng-show="screen==0">
+          <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid sideTitleMargin" ng-controller="StorageCtrl">
+	          <h3 class="dashTitle">IN YOUR AREA</h3>
+	           <ul class="demo-list-three mdl-list">
+				  <li class="mdl-list__item mdl-list__item--three-line sessionListCard">
+				    <span class="mdl-list__item-primary-content">
+				      <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(images/co1.jpg)"></i>
+				      <span>Coping up with Depression</span>
+				      <span class="mdl-list__item-text-body">
+				        by Allie Jane
+				      </span>
+				    </span>
+				    <span class="mdl-list__item-secondary-content">
+				      <span>
+				        MWF 8:30PM
+				      </span>
+				      <span class="mdl-list__item-text-body">
+				      	4.2 miles away				      
+				      </span>
+				    </span>
+				  </li>
+				  <li class="mdl-list__item mdl-list__item--three-line sessionListCard">
+				    <span class="mdl-list__item-primary-content">
+				      <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(images/co2.jpg)"></i>
+				      <span>Staying Alcohol Free</span>
+				      <span class="mdl-list__item-text-body">
+				        by Tom Johnson
+				      </span>
+				    </span>
+				    <span class="mdl-list__item-secondary-content">
+				      <span>
+				        TTF 6:00PM
+				      </span>
+				      <span class="mdl-list__item-text-body">
+				      	2.3 miles away
+				      </span>
+				    </span>
+				  </li>
+				  
+				</ul>
+	      </div>
+	    </div>
+        
+        
+        <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+		  <div class="mdl-snackbar__text"></div>
+		  <button class="mdl-snackbar__action" type="button"></button>
+		</div>
+
+		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored addButton">
+			<i class="material-icons">add</i>
+		</button>
+      </main>
+
+    </div>
+ 
+     
+    <script src="js/material.min.js"></script>
+  </body>
+</html>
