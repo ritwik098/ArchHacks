@@ -1,62 +1,61 @@
 <!DOCTYPE html>
-
-
 <html lang="en" ng-app="counsl">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Counsl.me</title><!-- Add to homescreen for Chrome on Android -->
+    <title>Counsl.me</title>
+    <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png"><!-- Add to homescreen for Safari on iOS -->
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+    <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Material Design Lite">
-    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png"><!-- Tile icon for Win8 (144x144 + tile color) -->
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <meta name="msapplication-TileColor" content="#3372DF"><!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <meta name="msapplication-TileColor" content="#3372DF">
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
     <!--
     <link rel="canonical" href="http://www.example.com/">
     -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Quicksand|Raleway:300i" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.purple-light_blue.min.css" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.deep_orange-pink.min.css" />
     <link rel="stylesheet" href="css/styles.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/animate.css" type="text/css">
     <script src="js/jquery.min.js" type="text/javascript">
-</script>
+    </script>
     <script src="js/wow.min.js" type="text/javascript">
-</script>
+    </script>
     <script type="text/javascript">
-new WOW().init();
+    new WOW().init();
     </script>
     <style type="text/css">
-#view-source {
-      position: fixed;
-      display: block;
-      right: 0;
-      bottom: 0;
-      margin-right: 40px;
-      margin-bottom: 40px;
-      z-index: 900;
+    #view-source {
+        position: fixed;
+        display: block;
+        right: 0;
+        bottom: 0;
+        margin-right: 40px;
+        margin-bottom: 40px;
+        z-index: 900;
     }
     </style>
     <script type="text/javascript" src="js/angular.min.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/app.js"></script>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-
-<!-- AngularFire -->
-<script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
 </head>
 
 <body>
@@ -65,64 +64,59 @@ new WOW().init();
             <div class="mdl-layout__header-row">
                 <!-- Title -->
                 <!-- Add spacer, to align navigation to the right -->
-
-                <div class="mdl-layout-spacer"></div><!-- Navigation -->
-
-                <nav class="mdl-navigation"><!--<a class="mdl-navigation__link" href="">Link</a>
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation -->
+                <nav class="mdl-navigation">
+                    <!--<a class="mdl-navigation__link" href="">Link</a>
         <a class="mdl-navigation__link" href="">Link</a>
         <a class="mdl-navigation__link" href="">Link</a>
         <a class="mdl-navigation__link" href="">Link</a>--></nav>
             </div>
         </header>
-
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Counsl.me</span>
-
             <nav class="mdl-navigation"><a class="mdl-navigation__link" href="">Dashboard</a> </nav>
         </div>
     </div>
-
-    <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded" ng-controller = "homeController as homeCntrl">
+    <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded" ng-controller="homeController as homeCntrl">
         <div class="header">
             <h1 id="logoTxt">Counsl.me</h1>
         </div>
-
         <div class="tag wow fadeInDown">
             <h3>Free online counselling session for your personal health problems</h3>
         </div>
-
         <div class="demo-blog__posts mdl-grid">
             <div class="mdl-card on-the-road-again mdl-cell mdl-cell--12-col">
                 <div class="mdl-card__media mdl-color-text--grey-50">
                     <h3 id="homeTxt">{{homeTxt}}</h3>
                 </div>
-
                 <div class="loginBox">
                     <form novalidate="" name="homeForm" ng-submit="homeCntrl.submitForm()">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-                            <input class="mdl-textfield__input" type="text" id="email" name="email" ng-model="auth.email"> <label class="mdl-textfield__label" for="email">Username</label>
-                        </div><br>
-
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-                            <input class="mdl-textfield__input" type="password" id="pwd" name="pwd" ng-model="auth.password"> <label class="mdl-textfield__label" for="pwd">Password</label>
-                        </div><br>
-
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo" ng-show="register">
-                            <input class="mdl-textfield__input" type="password" id="cpwd" name="cpwd"> <label class="mdl-textfield__label" for="cpwd">Confirm Password</label>
-                        </div><br>
-                        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="submit" type="submit" form="homeForm" value="{{status}}" ng-click="homeCntrl.submitForm()">{{status}}</button><br>
+                            <input class="mdl-textfield__input" type="text" id="email" name="email" ng-model="auth.email">
+                            <label class="mdl-textfield__label" for="email">Email</label>
+                        </div>
                         <br>
-
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
+                            <input class="mdl-textfield__input" type="password" id="pwd" name="pwd" ng-model="auth.password">
+                            <label class="mdl-textfield__label" for="pwd">Password</label>
+                        </div>
+                        <br>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo" ng-show="register">
+                            <input class="mdl-textfield__input" type="password" id="cpwd" name="cpwd">
+                            <label class="mdl-textfield__label" for="cpwd">Confirm Password</label>
+                        </div>
+                        <br>
+                        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="submit" type="submit" form="homeForm" value="{{status}}" ng-click="homeCntrl.submitForm()">{{status}}</button>
+                        <br>
+                        <br>
                         <p ng-show="register">Already have an account? Login <a href="#" ng-click="homeCntrl.loginOn()">here</a>.</p>
-
                         <p ng-hide="register">No account? Register <a href="#" ng-click="homeCntrl.registerOn()">here</a>.</p>
                     </form>
                 </div>
             </div>
         </div>
-
         <!--<footer class="mdl-mini-footer">
             <div class="mdl-mini-footer--left-section"></div>
 
@@ -132,44 +126,47 @@ new WOW().init();
         </footer>
 -->
         <div class="mdl-layout__obfuscator"></div>
-    </div><script defer src="https://code.getmdl.io/1.2.1/material.min.js" type="text/javascript">
-</script><script type="text/javascript">
-//$(window).load(function(){
- /*           
-            var a = $("#logoTxt").offset().top;
-            
-            $(document).scroll(function(){
-            if($(this).scrollTop() > a)
-            {   
-               $('#logoTxt').css({"font-size":"1.5em"});
-              // $('.topnav').css({"border-bottom":"#39A9E0 solid"});
-              // $('.headImg').css({"max-width": "50px"});
-              console.log("up");
-            } else {
-              // $('.topnav').css({"background":"transparent"});
-              // $('.topnav').css({"border-bottom":"none"});
-               $('#logoTxt').css({"font-size":"6em"});
-               console.log("down");
-            }
-            });
-            */
-            
+    </div>
+    <script defer src="https://code.getmdl.io/1.2.1/material.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+    //$(window).load(function(){
+    /*           
+               var a = $("#logoTxt").offset().top;
+               
+               $(document).scroll(function(){
+               if($(this).scrollTop() > a)
+               {   
+                  $('#logoTxt').css({"font-size":"1.5em"});
+                 // $('.topnav').css({"border-bottom":"#39A9E0 solid"});
+                 // $('.headImg').css({"max-width": "50px"});
+                 console.log("up");
+               } else {
+                 // $('.topnav').css({"background":"transparent"});
+                 // $('.topnav').css({"border-bottom":"none"});
+                  $('#logoTxt').css({"font-size":"6em"});
+                  console.log("down");
+               }
+               });
+               */
+
     // });
     </script>
     <script type="text/javascript">
-Array.prototype.forEach.call(document.querySelectorAll('.mdl-card__media'), function(el) {
-      var link = el.querySelector('a');
-      if(!link) {
-        return;
-      }
-      var target = link.getAttribute('href');
-      if(!target) {
-        return;
-      }
-      el.addEventListener('click', function() {
-        location.href = target;
-      });
+    Array.prototype.forEach.call(document.querySelectorAll('.mdl-card__media'), function(el) {
+        var link = el.querySelector('a');
+        if (!link) {
+            return;
+        }
+        var target = link.getAttribute('href');
+        if (!target) {
+            return;
+        }
+        el.addEventListener('click', function() {
+            location.href = target;
+        });
     });
     </script>
 </body>
+
 </html>

@@ -4,7 +4,11 @@ var express = require('express')
   , bodyParser = require('body-parser')
   , firebase = require('firebase')	
   , server = http.createServer(app)
-  , io = require('socket.io').listen(server);
+  , io = require('socket.io').listen(server)
+  , fs = require("fs");
+
+var path = require('path').dirname(require.main.filename);
+var publicPath = path + "/public/";
 
 require('firebase/auth');
 require('firebase/database');
@@ -104,8 +108,25 @@ app.post('/login',function(req,res){
 
 // routing
 app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
+  res.sendfile(__dirname + '/public/');
 });
+app.get('/css/:file', function (req, res) { sendFolder("css",req,res); });
+app.get('/images/:file', function (req, res) { sendFolder("images",req,res); });
+app.get('/js/:file', function (req, res) { sendFolder("js",req,res); });
+
+function sendFolder(folder,req,res)
+{
+  var fileId = req.params.file;
+  var file = publicPath + folder + "/" + fileId;
+  if(fs.existsSync(file))
+  {
+    res.sendFile(file);
+  }
+  else {
+    res.send("404 not found.");
+  }
+}
+
 
 // usernames which are currently connected to the chat
 var usernames = {};
