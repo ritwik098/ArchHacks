@@ -1,10 +1,118 @@
 var express = require('express')
   , app = express()
   , http = require('http')
+  , bodyParser = require('body-parser')
+  , firebase = require('firebase')	
   , server = http.createServer(app)
   , io = require('socket.io').listen(server);
 
+require('firebase/auth');
+require('firebase/database');
 server.listen(8080);
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+
+firebase.initializeApp({
+  databaseURL: "https://counsl-dd6fe.firebaseio.com",
+  serviceAccount: "counsl-dd6fe-firebase-adminsdk-bdz8g-54f3eb9f39.json",
+  apiKey: "AIzaSyCN_z36yq6gMeEqjmSVjkNGNrtI_ClCv_s",
+authDomain: "counsl-dd6fe.firebaseapp.com",
+	    storageBucket: "counsl-dd6fe.appspot.com",
+	    messagingSenderId: "456446067935"
+});
+
+
+var db = firebase.database();
+var ref = db.ref();
+ref.once("value", function(snapshot) {
+ console.log(snapshot.val());
+});
+
+/*var tokenGenerator = new FirebaseTokenGenerator("mXpMJYiopVqgvmZTWRsMAtJYZwzXM4mMfCZ2WSRp");
+var token = tokenGenerator.createToken(
+   {uid: "my-awesome-server"}, 
+   { expires:100000 });
+
+var ref = new firebase("https://counsl-dd6fe.firebaseio.com/");
+ref.authWithCustomToken(token, function(error, authData) {
+  if(!error)
+  	console.log(authData);
+  else
+  	console.log(error);
+});
+*/
+
+
+
+app.post('/register',function(req,res){
+
+
+	var email = req.body.email;
+	var password = req.body.password;
+	var type = req.body.type;
+
+	console.log(email);
+	console.log(password);
+	console.log(type);
+/*
+
+	firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+	 	 // Handle Errors here.
+	  	var errorCode = error.code;
+	    var errorMessage = error.message;
+
+	 	console.log(errorCode + ": " +errorMessage);
+	});
+
+*/
+	
+	firebase.database().ref('users').push({
+  	    email: email,
+    	password : password,
+   		type: type
+    });
+	console.log("Success");
+
+    ref.once("value", function(snapshot) {
+ 		res.send("SUCCESS");
+ 		console.log(snapshot.val());
+	});
+
+});
+
+app.post('/login',function(req,res){
+
+
+	var email = "" + req.body.email;
+	console.log("email: "+ email);
+	var password = req.body.password;
+	var type = req.body.type;
+
+	//var loginObjects;
+	ref.once("value", function(snapshot) {
+ 		
+ 		//loginObjects = snapshot.val();
+ 		snapshot.forEach(function(user){
+			user.forEach(function(users){
+				var ab = ""+ user.val().email;
+				console.log("email : "+email);
+				if(email.localeCompare(ab)){
+					console.log("LOGIN SUCCESS");
+				} else{
+					console.log("wtf");
+				}
+				//res.send(users.val().email + '\n' + email);
+				console.log("BREAK");
+			});
+			
+	});
+	});
+
+
+
+});
 
 // routing
 app.get('/', function (req, res) {
@@ -66,3 +174,5 @@ io.sockets.on('connection', function (socket) {
 		socket.leave(socket.room);
 	});
 });
+console.log("magic happens at 8080");
+exports = module.exports = app;
