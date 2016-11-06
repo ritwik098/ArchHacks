@@ -27,10 +27,12 @@
 	  };
 	});
 
-	app.factory("Auth", function($firebaseAuth) {
-		var ref = new Firebase("URL");
-		return $firebaseAuth(ref);
-	})
+	app.factory("Auth", ["$firebaseAuth",
+	  function($firebaseAuth) {
+	    return $firebaseAuth();
+	  }
+	]);
+
 
 	app.config(function() {
 		var config = {
@@ -154,18 +156,25 @@
 		};
 	}]);
 
-	app.controller('DashController', ['$scope','$http','$window','$firebase','$firebaseAuth','socket', function($scope,$http,$window,$firebase,$firebaseAuth, socket) {
+	app.controller('DashController', ['$scope','$http','$window','$firebase','Auth','socket', function($scope,$http,$window,$firebase,Auth, socket) {
 		$scope.screen = 0;
 		//var fb = new Firebase("https://counsl-dd6fe.firebaseapp.com/");
 		//var ref = new Firebase("https://counsl-dd6fe.firebaseapp.com/");
       	
+      	$scope.auth = Auth;
 
 		this.createChat = function(){
-			
+			    var firebaseUser = $scope.auth.$getAuth();
+
+				if (firebaseUser) {
+				  console.log("Signed in as:", firebaseUser.uid);
+				} else {
+				  console.log("Signed out");
+				}
 			//if($scope.authObj) {
 			//	console.log($scope.authObj.val());
 				var obj = {
-					//"id": $scope.authObj.uid,
+					"id": firebaseUser.uid,
 					"name": prompt("Enter name for chatroom")
 				};
 				socket.emit("addroom", obj);
