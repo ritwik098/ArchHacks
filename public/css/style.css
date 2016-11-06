@@ -126,3 +126,7 @@
     padding: 0.5em;
     height: auto;
 }
+
+.noDec{
+	text-decoration: none;
+}

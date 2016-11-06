@@ -117,6 +117,9 @@ app.get('/clogin', function (req, res) {
 app.get('/dash', function (req, res) {
   res.sendfile(__dirname + '/public/dash.html');
 });
+app.get('/chat/:id', function (req, res) {
+  res.sendfile(__dirname + '/public/chat.html');
+});
 app.get('/css/:file', function (req, res) { sendFolder("css",req,res); });
 app.get('/images/:file', function (req, res) { sendFolder("images",req,res); });
 app.get('/js/:file', function (req, res) { sendFolder("js",req,res); });
