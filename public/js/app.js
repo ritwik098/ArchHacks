@@ -92,6 +92,7 @@
                         $scope.success = true;
 
                         var user = {
+                        	uid: firebaseUser.uid,
                         	email: $scope.auth.email, 
                             type: $scope.auth.type,
                             name: $scope.auth.fullname
