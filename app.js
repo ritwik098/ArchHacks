@@ -5,7 +5,8 @@ var express = require('express')
   , firebase = require('firebase')	
   , server = http.createServer(app)
   , io = require('socket.io').listen(server)
-  , fs = require("fs");
+  , fs = require("fs")
+  , uuid = require('uuid');
 
 var path = require('path').dirname(require.main.filename);
 var publicPath = path + "/public/";
@@ -34,7 +35,7 @@ ref.once("value", function(snapshot) {
  console.log(snapshot.val());
 });
 
-var ID = 0;
+
 /*var tokenGenerator = new FirebaseTokenGenerator("mXpMJYiopVqgvmZTWRsMAtJYZwzXM4mMfCZ2WSRp");
 var token = tokenGenerator.createToken(
    {uid: "my-awesome-server"}, 
@@ -170,7 +171,7 @@ io.sockets.on('connection', function (socket) {
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
-			"roomId" : ID,
+			"roomId" : uuid.v1(),
 			"users" : [],
 			"messages" : []
 		}
@@ -182,7 +183,7 @@ io.sockets.on('connection', function (socket) {
 		//socket.name = name;
 		console.log(room.name);
 		firebase.database().ref("rooms").child(obj.name).set(room);
-		ID++;
+		
 
 	});
 
