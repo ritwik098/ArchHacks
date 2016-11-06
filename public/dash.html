@@ -56,6 +56,8 @@ new WOW().init();
     <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
+<script src="js/angular-md5.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyB6iImiaTGj6DQp5deK6t-AO7EyiRGTI9s&libraries=geometry"></script>
 
     <style>
     #view-source {
@@ -94,7 +96,7 @@ new WOW().init();
       </header>
       <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
-          <img src="images/user.jpg" class="demo-avatar">
+          <img src="images/logo.png" class="demo-avatar">
           <div class="demo-avatar-dropdown">
             <span>{{fullname}}</span>
             <div class="mdl-layout-spacer"></div>
@@ -134,7 +136,7 @@ new WOW().init();
 				  <li ng-repeat="joinedRoom in joinedRooms">
 				  <a ng-href="/chat/{{joinedRoom.roomId}}" href ng-href="#" class="noDec"><div class="mdl-list__item mdl-list__item--three-line sessionListCard">
 				    <span class="mdl-list__item-primary-content">
-				      <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(images/co1.jpg)"></i>
+				      <i class="material-icons mdl-list__item-avatar sessionAvatar" ng-style="{'background-image':'url(https://www.gravatar.com/avatar/{{dashCtrl.getHash(joinedRoom.counselorEmail)}})'}"></i>
 				      <span>{{joinedRoom.name}}</span>
 				      <span class="mdl-list__item-text-body">
 				        by {{joinedRoom.counselorName}}
@@ -158,11 +160,13 @@ new WOW().init();
         <div class="mdl-grid demo-content" ng-show="screen==0">
           <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid sideTitleMargin">
 	          <h3 class="dashTitle">IN YOUR AREA</h3>
+	          <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="20" tabindex="0" ng-model="locationRadius">
+	          <h4 style="margin-left: 1em">Location Radius: {{locationRadius}} miles</h4>
 	           <ul class="demo-list-three mdl-list">
-				  <li ng-repeat="room in rooms">
+				  <li ng-repeat="room in rooms" ng-show="dashCtrl.getDistance(room.lat,room.lon) <= locationRadius">
 				  <a href ng-href="/chat/{{room.roomId}}" ng-click="dashCtrl.joinChat(room.roomId)" class="noDec"><div class="mdl-list__item mdl-list__item--three-line sessionListCard" >
 				    <span class="mdl-list__item-primary-content">
-				      <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(images/co1.jpg)"></i>
+				      <i class="material-icons mdl-list__item-avatar sessionAvatar" ng-style="{'background-image':'url(https://www.gravatar.com/avatar/{{dashCtrl.getHash(room.counselorEmail)}})'}"></i>
 				      <span>{{room.name}}</span>
 				      <span class="mdl-list__item-text-body">
 				        by {{room.counselorName}}
@@ -173,7 +177,7 @@ new WOW().init();
 				        MWF 8:30PM
 				      </span>
 				      <span class="mdl-list__item-text-body">
-				      	4.2 miles away				      
+				      	Distance(in miles): {{dashCtrl.getDistance(room.lat,room.lon)}}			      
 				      </span>
 				    </span>
 				    </div>
@@ -184,12 +188,12 @@ new WOW().init();
 	    </div>
         
         
-        <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+        <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar" >
 		  <div class="mdl-snackbar__text"></div>
 		  <button class="mdl-snackbar__action" type="button"></button>
 		</div>
 
-		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored addButton" ng-click="dashCtrl.createChat()">
+		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored addButton" ng-show="counselor" ng-click="dashCtrl.createChat()">
 			<i class="material-icons">add</i>
 		</button>
       </main>

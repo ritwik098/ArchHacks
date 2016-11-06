@@ -187,6 +187,9 @@ io.sockets.on('connection', function (socket) {
 			"name" : obj.name,
 			"psychId" : obj.id,
 			"counselorName": obj.counselorName,
+			"counselorEmail": obj.counselorEmail,
+			"lat": obj.lat,
+            "lon": obj.lon,
 			"roomId" : roomId,
 			"users" : 'bot',
 			"messages" : ''

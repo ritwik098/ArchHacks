@@ -130,3 +130,16 @@
 .noDec{
 	text-decoration: none;
 }
+
+.mdl-slider__container{
+	width: 100%;
+}
+
+.demo-avatar {
+    width: 100%;
+    height: auto;
+}
+
+.demo-drawer-header {
+	height: 275px;
+}
