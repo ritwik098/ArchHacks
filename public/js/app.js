@@ -161,25 +161,51 @@
         };
     }]);
 
-    app.controller('DashController', ['$scope', '$http', '$window', '$firebaseArray', '$firebaseObject', 'Auth', 'socket', function($scope, $http, $window, $firebaseArray, $firebaseObject, Auth, socket) {
+    app.controller('DashController', ['$scope', '$http', '$window', '$firebaseAuth', '$firebaseArray', '$firebaseObject', 'Auth', 'socket', function($scope, $http, $window, $firebaseAuth, $firebaseArray, $firebaseObject, Auth, socket) {
         $scope.screen = 0;
         $scope.auth = Auth;
+        $scope.fullname = "";
+        $scope.joinedRooms;
+
+
 
         var ref = firebase.database().ref().child("rooms");
         $scope.rooms = $firebaseArray(ref);
 
+        var authData = $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+		  if (firebaseUser) {
+    		var jRef = firebase.database().ref().child("users").child(firebaseUser.uid).child("rooms");
+        	$scope.joinedRooms = $firebaseArray(jRef);
+        	$scope.fullname = firebaseUser.email;
+		  } else {
+		    console.log("Signed out");
+		  }
+		});
+
+		if (authData) {
+		  console.log("Logged in as:", authData.uid);
+		  
+		} else {
+		  console.log("Logged out");
+		}
+        
+       
+
         this.createChat = function() {
-            var firebaseUser = $scope.auth.$getAuth();
+        	var firebaseUser = $scope.auth.$getAuth();
 
             if (firebaseUser) {
                 console.log("Signed in as:", firebaseUser.email);
 
-                var ref = firebase.database().ref().child("users").child(firebaseUser.uid);
-        		$scope.user = $firebaseObject(ref);
+                var userRef = firebase.database().ref().child("users").child(firebaseUser.uid);
+        		$scope.user = $firebaseObject(userRef);
 
         		$scope.user.$loaded()
 				  .then(function(data) {
 				       console.log($scope.user.name);
+
+				       
+
 				        var obj = {
 		                    "id": firebaseUser.uid,
 		                    "name": prompt("Enter name for chatroom"),
@@ -204,11 +230,26 @@
             if (firebaseUser) {
                 console.log("Signed in as:", firebaseUser.email);
                
-		        var obj = {
-                    "userId": firebaseUser.uid,
-                    "roomId": roomId,
-                };
-                socket.emit("adduser", obj);
+
+
+                var roomRef = firebase.database().ref().child("rooms").child(roomId);
+        		$scope.room = $firebaseObject(roomRef);
+
+        		$scope.room.$loaded()
+				  .then(function(data) {
+			            var obj = {
+		                    "userId": firebaseUser.uid,
+		                    "room": {
+		                    	"name" : data.name,
+								"counselorName": data.counselorName,
+								"roomId" : roomId
+		                    },
+		                };
+		                socket.emit("adduser", obj);
+				  })
+				  .catch(function(error) {
+				    console.error("Error:", error);
+				  });
 
 
             } else {

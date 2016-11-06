@@ -150,12 +150,13 @@ io.sockets.on('connection', function (socket) {
 		// store the username in the socket session for this client
 		socket.username = obj.userId;
 		// store the room name in the socket session for this client
-		socket.room = obj.roomId;
+		socket.room = obj.room.roomId;
 		// add the client's username to the global list
 		
+		
 		//usersRef.once("value", me2);
-    	firebase.database().ref("rooms").child(obj.roomId).child("users").push(obj.userId);
-    	firebase.database().ref("users").child(obj.userId).child("rooms").push(obj.roomId);
+    	firebase.database().ref("rooms").child(obj.room.roomId).child("users").child(obj.userId).set(obj.userId);
+    	firebase.database().ref("users").child(obj.userId).child("rooms").child(obj.room.roomId).set(obj.room);
 
     	/*
 		// send client to room 1
@@ -187,8 +188,8 @@ io.sockets.on('connection', function (socket) {
 			"psychId" : obj.id,
 			"counselorName": obj.counselorName,
 			"roomId" : roomId,
-			"users" : ['bot'],
-			"messages" : initialMsg
+			"users" : 'bot',
+			"messages" : ''
 		}
 		//var rooms;
 		/*firebase.database().ref("rooms").once("value", function(snapshot) {
