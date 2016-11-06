@@ -36,7 +36,8 @@ ref.once("value", function(snapshot) {
  console.log(snapshot.val());
 });
 
-
+var usernames = [];
+var usersRef = firebase.database().ref("rooms").child(name).child("users");
 /*var tokenGenerator = new FirebaseTokenGenerator("mXpMJYiopVqgvmZTWRsMAtJYZwzXM4mMfCZ2WSRp");
 var token = tokenGenerator.createToken(
    {uid: "my-awesome-server"}, 
@@ -151,13 +152,8 @@ io.sockets.on('connection', function (socket) {
 		// store the room name in the socket session for this client
 		socket.room = room;
 		// add the client's username to the global list
-		var usernames = [];
-		var usersRef = firebase.database().ref("rooms").child(name).child("users");
-		usersRef.once("value", function(snapshot) {
-        
-        	usernames = snapshot.val();
-        	usernames[usernames.length] = username;
-    	});
+		
+		usersRef.once("value", me2);
     	firebase.database().ref("rooms").child(name).child("users").set(usernames);
 		// send client to room 1
 		socket.join(room);
@@ -173,31 +169,12 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on('addroom', function(obj){
-
-		var REF = firebase.database().ref("users");
-		var name = "";
-		REF.once("value", function(snapshot) {
-			console.log("here");
-			var psychID = snapshot.val();			
-			console.log(psychID.users);
-			snapshot.forEach(function(user){
-				var ab = ""+ user.val().uid;
-				console.log(user.val().uid);
-				if(obj.id.localeCompare(ab)){
-					name = user.val().name;
-					console.log("LOGIN SUCCESS");
-				} else{
-					console.log("wtf");
-				}
-				//res.send(users.val().email + '\n' + email);
-				console.log("BREAK");
-			});
-		});
+		
 		var roomId = uuid.v1();
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
-			"counselorName": name,
+			"counselorName": obj.counselorName,
 			"roomId" : roomId,
 			"users" : [],
 			"messages" : []
@@ -244,5 +221,11 @@ io.sockets.on('connection', function (socket) {
 		socket.leave(socket.room);
 	});
 });
+
+var me2 = function(snapshot) {
+       	usernames = snapshot.val();
+       	usernames[usernames.length] = username;
+}
+
 console.log("magic happens at 8080");
 exports = module.exports = app;
