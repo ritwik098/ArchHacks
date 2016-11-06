@@ -50,6 +50,12 @@ new WOW().init();
 </script>
     <script type="text/javascript" src="../js/app.js">
 </script>
+<!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
 
 
     <style>
@@ -64,7 +70,7 @@ new WOW().init();
     }
     </style>
   </head>
-  <body ng-controller="DashController as dashCtrl">
+  <body ng-controller="ChatController as chatCtrl">
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="demo-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">

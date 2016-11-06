@@ -175,12 +175,14 @@ io.sockets.on('connection', function (socket) {
 	socket.on('addroom', function(obj){
 
 		var REF = firebase.database().ref("users");
-		var name;
+		var name = "";
 		REF.once("value", function(snapshot) {
+			console.log("here");
 			var psychID = snapshot.val();			
 			console.log(psychID.users);
-			snapshot.forEach(function(){
+			snapshot.forEach(function(user){
 				var ab = ""+ user.val().uid;
+				console.log(user.val().uid);
 				if(obj.id.localeCompare(ab)){
 					name = user.val().name;
 					console.log("LOGIN SUCCESS");
@@ -191,12 +193,12 @@ io.sockets.on('connection', function (socket) {
 				console.log("BREAK");
 			});
 		});
-
+		var roomId = uuid.v1();
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
-			"counselorName": obj.counselorName,
-			"roomId" : uuid.v1(),
+			"counselorName": name,
+			"roomId" : roomId,
 			"users" : [],
 			"messages" : []
 		}
@@ -207,7 +209,7 @@ io.sockets.on('connection', function (socket) {
 		//socket.psychId = psychId;
 		//socket.name = name;
 		console.log(room.name);
-		firebase.database().ref("rooms").child(obj.name).set(room);
+		firebase.database().ref("rooms").child(roomId).set(room);
 		
 
 	});

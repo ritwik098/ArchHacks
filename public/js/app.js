@@ -192,6 +192,15 @@
         };
     }]);
 
+    app.controller('ChatController', ['$scope', '$http', '$location', '$firebaseArray', 'Auth', 'socket', function($scope, $http, $location, $firebaseArray, Auth, socket) {
+    	var url = $location.absUrl();
+    	var roomId = url.substring(url.indexOf("/chat/")+6);
+
+    	var ref = firebase.database().ref().child("rooms");
+        $scope.rooms = $firebaseArray(ref);
+
+    }]);
+
     function sortByKey(array, key) {
         return array.sort(function(a, b) {
             var x = a[key];
