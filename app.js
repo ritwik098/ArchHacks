@@ -198,9 +198,10 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	// when the client emits 'sendchat', this listens and executes
-	socket.on('sendchat', function (data,room) {
+	socket.on('sendchat', function (obj) {
 		// we tell the client to execute 'updatechat' with 2 parameters
-		io.sockets.in(socket.room).emit('updatechat', socket.username, data);
+		firebase.database().ref("rooms").child(obj.roomId).child("messages").set(obj.msg);
+		//io.sockets.in(roomId).emit('updatechat', socket.username, obj.msg.message);
 	});
 	
 	socket.on('switchRoom', function(newroom){
