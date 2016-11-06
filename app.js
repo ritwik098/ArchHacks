@@ -170,11 +170,29 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on('addroom', function(obj){
-		
+
+		var REF = firebase.database().ref("users");
+		var name;
+		REF.once("value", function(snapshot) {
+			var psychID = snapshot.val();			
+			console.log(psychID.users);
+			snapshot.forEach(function(){
+				var ab = ""+ user.val().uid;
+				if(obj.id.localeCompare(ab)){
+					name = user.val().name;
+					console.log("LOGIN SUCCESS");
+				} else{
+					console.log("wtf");
+				}
+				//res.send(users.val().email + '\n' + email);
+				console.log("BREAK");
+			});
+		});
+
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
-			//"counselorName": obj.counselorName,
+			"counselorName": obj.counselorName,
 			"roomId" : uuid.v1(),
 			"users" : [],
 			"messages" : []
