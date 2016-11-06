@@ -151,12 +151,12 @@ new WOW().init();
 		    <div class="mdl-snackbar__text"></div>
 		    <button class="mdl-snackbar__action" type="button"></button>
 		  </div>
-      <form action="#" class="textBox">
+      <form class="textBox">
         <div class="mdl-textfield mdl-js-textfield">
-          <input class="mdl-textfield__input" type="text" id="sample1">
+          <input class="mdl-textfield__input" type="text" id="sample1" ng-model="msgTxt">
           <label class="mdl-textfield__label" for="sample1">Speak your mind!</label>
         </div>
-        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" style="margin-left: 1em">
+        <button ng-click="chatCtrl.sendMsg()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" style="margin-left: 1em">
           <i class="material-icons">send</i>
         </button>
 

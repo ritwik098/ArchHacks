@@ -198,22 +198,8 @@
             }
         };
 
-        this.joinChat = function(roomId) {
-        	var firebaseUser = $scope.auth.$getAuth();
+        this.joinChat = function() {
 
-            if (firebaseUser) {
-                console.log("Signed in as:", firebaseUser.email);
-               
-		        var obj = {
-                    "userId": firebaseUser.uid,
-                    "roomId": roomId,
-                };
-                socket.emit("adduser", obj);
-
-
-            } else {
-                console.log("Signed out");
-            }
         }
     }]);
 
@@ -244,7 +230,6 @@
 				}
 
 				socket.emit("sendchat", msgObject);
-				$scope.msgTxt = "";
         	}
         };
     }]);

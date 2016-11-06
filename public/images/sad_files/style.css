@@ -1,0 +1,132 @@
+*{
+	transition: all 0.5s linear;
+}
+
+.header{
+	width: 100%;
+	text-align: center;
+	color: #f0f0f0;
+	
+} 
+
+.header h1{
+    font-size: 6em;
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 100;
+}
+
+.headTitle{
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 100;
+}
+
+.dashTitle{
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 100;
+	font-style: italic;
+	color: gray;
+	width: 100%;
+    margin: 0.25em;
+}
+
+.sideTitleMargin{
+	padding: 16px 32px;
+}
+
+.storageChart{
+	text-align: center;
+}
+
+.storageChart p{
+	line-height: 10px;
+}
+
+.loginBox{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em 0 2em 0;
+}
+
+.tag{
+	color: #f0f0f0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 6em;
+}
+
+.tag h3{
+	font-family: 'Raleway', sans-serif;
+}
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
+    color: rgba(100, 100, 100, 0.56);
+}
+
+.mdl-data-table__cell--non-numeric{
+	text-align: center !important;
+}
+
+.demo-list-control {
+  width: 300px;
+}
+
+.demo-list-radio {
+  display: inline;
+}
+
+.navActive {
+	color: rgba(100, 100, 100, 0.56) !important;
+    background-color: #e0e0e0;
+}
+
+.addButton{
+	position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 1em;
+}
+
+.sessionAvatar{
+	background-size: contain !important;
+}
+
+.mdl-list{
+	width: 100%;
+}
+
+.sessionListCard{
+	margin: 1em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.sessionListCard:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.mdl-list__item--three-line .mdl-list__item-text-body {
+	height: auto !important;
+}
+
+.mdl-list__item--three-line .mdl-list__item-primary-content {
+    height: auto !important;
+}
+
+.textBox{
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+	padding: 1em;
+}
+
+.textBox .mdl-textfield{
+	width: 75% !important;
+}
+
+.chatText{
+    padding: 0.5em;
+    height: auto;
+}
+
+.noDec{
+	text-decoration: none;
+}

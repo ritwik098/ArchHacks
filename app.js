@@ -146,15 +146,18 @@ function sendFolder(folder,req,res)
 io.sockets.on('connection', function (socket) {
 	
 	// when the client emits 'adduser', this listens and executes
-	socket.on('adduser', function(username,room){
+	socket.on('adduser', function(obj){
 		// store the username in the socket session for this client
-		socket.username = username;
+		socket.username = obj.userId;
 		// store the room name in the socket session for this client
-		socket.room = room;
+		socket.room = obj.roomId;
 		// add the client's username to the global list
 		
-		usersRef.once("value", me2);
-    	firebase.database().ref("rooms").child(roomId).child("users").set(usernames);
+		//usersRef.once("value", me2);
+    	firebase.database().ref("rooms").child(obj.roomId).child("users").push(obj.userId);
+    	firebase.database().ref("users").child(obj.userId).child("rooms").push(obj.roomId);
+
+    	/*
 		// send client to room 1
 		socket.join(room);
 		// echo to client they've connected
@@ -165,25 +168,27 @@ io.sockets.on('connection', function (socket) {
         	rooms = snapshot.val();
     	});
 		socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
-		socket.emit('updaterooms', rooms, room);
+		socket.emit('updaterooms', rooms, room);*/
 	});
 	
 	socket.on('addroom', function(obj){
 		
 		var roomId = uuid.v1();
+
 		var initialMsg = {
 			time: Date.now(),
 			type: "status",
 			message: ""+obj.counselorName+" has joined the room",
 			user: obj.id
 		}
+		
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
 			"counselorName": obj.counselorName,
 			"roomId" : roomId,
 			"users" : ['bot'],
-			"messages" : [initialMsg]
+			"messages" : initialMsg
 		}
 		//var rooms;
 		/*firebase.database().ref("rooms").once("value", function(snapshot) {
@@ -200,7 +205,7 @@ io.sockets.on('connection', function (socket) {
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendchat', function (obj) {
 		// we tell the client to execute 'updatechat' with 2 parameters
-		firebase.database().ref("rooms").child(obj.roomId).child("messages").set(obj.msg);
+		firebase.database().ref("rooms").child(obj.roomId).child("messages").push(obj.msg);
 		//io.sockets.in(roomId).emit('updatechat', socket.username, obj.msg.message);
 	});
 	

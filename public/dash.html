@@ -177,7 +177,7 @@ new WOW().init();
 	          <h3 class="dashTitle">IN YOUR AREA</h3>
 	           <ul class="demo-list-three mdl-list">
 				  <li ng-repeat="room in rooms">
-				  <a href ng-href="/chat/{{room.roomId}}" class="noDec"><div class="mdl-list__item mdl-list__item--three-line sessionListCard" >
+				  <a href ng-href="/chat/{{room.roomId}}" ng-click="dashCtrl.joinChat(room.roomId)" class="noDec"><div class="mdl-list__item mdl-list__item--three-line sessionListCard" >
 				    <span class="mdl-list__item-primary-content">
 				      <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(images/co1.jpg)"></i>
 				      <span>{{room.name}}</span>
