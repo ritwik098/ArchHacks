@@ -6,7 +6,8 @@ var express = require('express')
   , server = http.createServer(app)
   , io = require('socket.io').listen(server)
   , fs = require("fs")
-  , uuid = require('uuid');
+  , uuid = require('uuid')
+  , gravatar = require('gravatar');
 
 var path = require('path').dirname(require.main.filename);
 var publicPath = path + "/public/";
@@ -63,8 +64,10 @@ app.post('/register',function(req,res){
     //console.log(password);
     console.log(type);
 
-    var user = {
-    	"type":type
+    var user = req.body;
+
+    if(type.localeCompare('counselor')){
+    	user.img = gravatar.url("nisargkolhe@gmail.com", {s: '200', r: 'pg', d: '404'});
     }
 
     firebase.database().ref("users").child(id).set(user);
@@ -171,6 +174,7 @@ io.sockets.on('connection', function (socket) {
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
+			//"counselorName": obj.counselorName,
 			"roomId" : uuid.v1(),
 			"users" : [],
 			"messages" : []

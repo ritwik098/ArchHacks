@@ -8,6 +8,7 @@
     "firebase": "^3.5.3",
     "firebase-token-generator": "^2.0.0",
     "fs": "0.0.1-security",
+    "gravatar": "^1.5.2",
     "socket.io": "^1.5.1",
     "socketio": "^1.0.0",
     "uuid": "^2.0.3"
