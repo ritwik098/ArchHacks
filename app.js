@@ -172,7 +172,7 @@ io.sockets.on('connection', function (socket) {
 		
 		var roomId = uuid.v1();
 		var initialMsg = {
-			time: new Date(),
+			time: Date.now(),
 			type: "status",
 			message: ""+obj.counselorName+" has joined the room",
 			user: obj.id
@@ -182,7 +182,7 @@ io.sockets.on('connection', function (socket) {
 			"psychId" : obj.id,
 			"counselorName": obj.counselorName,
 			"roomId" : roomId,
-			"users" : [],
+			"users" : ['bot'],
 			"messages" : [initialMsg]
 		}
 		//var rooms;
