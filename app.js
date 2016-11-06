@@ -34,6 +34,7 @@ ref.once("value", function(snapshot) {
  console.log(snapshot.val());
 });
 
+var ID = 0;
 /*var tokenGenerator = new FirebaseTokenGenerator("mXpMJYiopVqgvmZTWRsMAtJYZwzXM4mMfCZ2WSRp");
 var token = tokenGenerator.createToken(
    {uid: "my-awesome-server"}, 
@@ -165,12 +166,15 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on('addroom', function(obj){
+		
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
-			"users" : []
+			"roomId" : ID,
+			"users" : [],
+			"messages" : []
 		}
-		var rooms;
+		//var rooms;
 		/*firebase.database().ref("rooms").once("value", function(snapshot) {
         	rooms = snapshot.val();
     	});*/
@@ -178,11 +182,12 @@ io.sockets.on('connection', function (socket) {
 		//socket.name = name;
 		console.log(room.name);
 		firebase.database().ref("rooms").child(obj.name).set(room);
+		ID++;
 
 	});
 
 	// when the client emits 'sendchat', this listens and executes
-	socket.on('sendchat', function (data) {
+	socket.on('sendchat', function (data,room) {
 		// we tell the client to execute 'updatechat' with 2 parameters
 		io.sockets.in(socket.room).emit('updatechat', socket.username, data);
 	});
