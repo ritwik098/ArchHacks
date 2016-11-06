@@ -129,12 +129,12 @@ new WOW().init();
       <main class="mdl-layout__content mdl-color--grey-100" >
 
         
-      <div class="mdl-list__item mdl-list__item--three-line chatText">
+        <div class="mdl-list__item mdl-list__item--three-line chatText" ng-repeat="message in messages">
             <span class="mdl-list__item-primary-content">
               <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(../images/co1.jpg)"></i>
               <span>Allie Jane</span>
               <span class="mdl-list__item-text-body">
-                Hello Everyone!
+                {{message.message}}
               </span>
             </span>
             <span class="mdl-list__item-secondary-content">
@@ -143,34 +143,7 @@ new WOW().init();
               </span>
             </span>
           </div>
-          <div class="mdl-list__item mdl-list__item--three-line chatText">
-            <span class="mdl-list__item-primary-content">
-              <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(../images/co1.jpg)"></i>
-              <span>Allie Jane</span>
-              <span class="mdl-list__item-text-body">
-                Hello Everyone!
-              </span>
-            </span>
-            <span class="mdl-list__item-secondary-content">
-              <span class="mdl-list__item-text-body">
-                2 min ago
-              </span>
-            </span>
-          </div>
-          <div class="mdl-list__item mdl-list__item--three-line chatText">
-            <span class="mdl-list__item-primary-content">
-              <i class="material-icons mdl-list__item-avatar sessionAvatar" style="background: url(../images/co1.jpg)"></i>
-              <span>Allie Jane</span>
-              <span class="mdl-list__item-text-body">
-                Hello Everyone!
-              </span>
-            </span>
-            <span class="mdl-list__item-secondary-content">
-              <span class="mdl-list__item-text-body">
-                2 min ago
-              </span>
-            </span>
-          </div>
+          
        
         
         

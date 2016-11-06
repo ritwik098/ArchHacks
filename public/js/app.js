@@ -160,7 +160,7 @@
         };
     }]);
 
-    app.controller('DashController', ['$scope', '$http', '$window', '$firebaseArray', 'Auth', 'socket', function($scope, $http, $window, $firebaseArray, Auth, socket) {
+    app.controller('DashController', ['$scope', '$http', '$window', '$firebaseArray', '$firebaseObject', 'Auth', 'socket', function($scope, $http, $window, $firebaseArray, $firebaseObject, Auth, socket) {
         $scope.screen = 0;
         $scope.auth = Auth;
 
@@ -173,32 +173,55 @@
             if (firebaseUser) {
                 console.log("Signed in as:", firebaseUser.email);
 
-                var ref = firebase.database().ref().child("users");
-        		$scope.users = $firebaseArray(ref);
+                var ref = firebase.database().ref().child("users").child(firebaseUser.uid);
+        		$scope.user = $firebaseObject(ref);
 
-        		$scope.users.forEach(function(element) {
-				    console.log(element);
-				});
+        		$scope.user.$loaded()
+				  .then(function(data) {
+				       console.log($scope.user.name);
+				        var obj = {
+		                    "id": firebaseUser.uid,
+		                    "name": prompt("Enter name for chatroom"),
+		                    "counselorName": $scope.user.name
+		                };
+		                socket.emit("addroom", obj);
+				  })
+				  .catch(function(error) {
+				    console.error("Error:", error);
+				  });
 
-                var obj = {
-                    "id": firebaseUser.uid,
-                    "name": prompt("Enter name for chatroom")
-                   // "counselorName": firebaseUser.name
-                };
-                socket.emit("addroom", obj);
+
+               
             } else {
                 console.log("Signed out");
             }
         };
     }]);
 
-    app.controller('ChatController', ['$scope', '$http', '$location', '$firebaseArray', 'Auth', 'socket', function($scope, $http, $location, $firebaseArray, Auth, socket) {
+    app.controller('ChatController', ['$scope', '$http', '$location', '$firebaseObject', 'Auth', 'socket', function($scope, $http, $location, $firebaseObject, Auth, socket) {
     	var url = $location.absUrl();
     	var roomId = url.substring(url.indexOf("/chat/")+6);
 
-    	var ref = firebase.database().ref().child("rooms");
-        $scope.rooms = $firebaseArray(ref);
+    	var ref = firebase.database().ref().child("rooms").child(roomId).child("messages");
+        $scope.messages = $firebaseObject(ref);
 
+        this.sendMsg = function(msg){
+        	var firebaseUser = $scope.auth.$getAuth();
+
+            if (firebaseUser) {
+            	var firebaseUser = $scope.auth.$getAuth();
+
+	        	var msgObject = {
+	        		roomId: roomId,
+					time: Date.now(),
+					type: "message",
+					message: msg,
+					user: firebaseUser.uid
+				}
+
+				socket.emit("sendchat", obj);
+        	}
+        };
     }]);
 
     function sortByKey(array, key) {

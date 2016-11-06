@@ -37,7 +37,7 @@ ref.once("value", function(snapshot) {
 });
 
 var usernames = [];
-var usersRef = firebase.database().ref("rooms").child(name).child("users");
+//var usersRef = firebase.database().ref("rooms").child(name).child("users");
 /*var tokenGenerator = new FirebaseTokenGenerator("mXpMJYiopVqgvmZTWRsMAtJYZwzXM4mMfCZ2WSRp");
 var token = tokenGenerator.createToken(
    {uid: "my-awesome-server"}, 
@@ -154,7 +154,7 @@ io.sockets.on('connection', function (socket) {
 		// add the client's username to the global list
 		
 		usersRef.once("value", me2);
-    	firebase.database().ref("rooms").child(name).child("users").set(usernames);
+    	firebase.database().ref("rooms").child(roomId).child("users").set(usernames);
 		// send client to room 1
 		socket.join(room);
 		// echo to client they've connected
@@ -171,13 +171,19 @@ io.sockets.on('connection', function (socket) {
 	socket.on('addroom', function(obj){
 		
 		var roomId = uuid.v1();
+		var initialMsg = {
+			time: new Date(),
+			type: "status",
+			message: ""+obj.counselorName+" has joined the room",
+			user: obj.id
+		}
 		var room = {
 			"name" : obj.name,
 			"psychId" : obj.id,
 			"counselorName": obj.counselorName,
 			"roomId" : roomId,
 			"users" : [],
-			"messages" : []
+			"messages" : [initialMsg]
 		}
 		//var rooms;
 		/*firebase.database().ref("rooms").once("value", function(snapshot) {
