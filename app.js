@@ -106,6 +106,12 @@ app.post('/login',function(req,res){
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/public/');
 });
+app.get('/clogin', function (req, res) {
+  res.sendfile(__dirname + '/public/clogin.html');
+});
+app.get('/dash', function (req, res) {
+  res.sendfile(__dirname + '/public/dash.html');
+});
 app.get('/css/:file', function (req, res) { sendFolder("css",req,res); });
 app.get('/images/:file', function (req, res) { sendFolder("images",req,res); });
 app.get('/js/:file', function (req, res) { sendFolder("js",req,res); });
@@ -158,19 +164,21 @@ io.sockets.on('connection', function (socket) {
 		socket.emit('updaterooms', rooms, room);
 	});
 	
-	socket.on('addroom', function(psychId, name){
+	socket.on('addroom', function(obj){
 		var room = {
-			"name" : name,
-			"psychId" : psychId,
+			"name" : obj.name,
+			"psychId" : "iuhkjuh",
 			"users" : []
 		}
 		var rooms;
-		ref("rooms").once("value", function(snapshot) {
+		/*firebase.database().ref("rooms").once("value", function(snapshot) {
         	rooms = snapshot.val();
-    	});
-		socket.psychId = psychId;
-		socket.name = name;
-		firebase.database().ref("rooms").child(name).set(room);
+    	});*/
+		//socket.psychId = psychId;
+		//socket.name = name;
+		console.log(room.name);
+		firebase.database().ref("rooms").child(obj.name).set(room);
+
 	});
 
 	// when the client emits 'sendchat', this listens and executes
@@ -195,7 +203,7 @@ io.sockets.on('connection', function (socket) {
 	// when the user disconnects.. perform this
 	socket.on('disconnect', function(){
 		// remove the username from global usernames list
-		delete usernames[socket.username];
+		//delete usernames[socket.username];
 		// update list of users in chat, client-side
 		io.sockets.emit('updateusers', usernames);
 		// echo globally that this client has left

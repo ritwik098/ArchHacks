@@ -3,7 +3,34 @@
 	var data = [];
 	var register = false;	
 
+	app.factory('socket', function ($rootScope) {
+	  var socket = io.connect();
+	  return {
+	    on: function (eventName, callback) {
+	      socket.on(eventName, function () {  
+	        var args = arguments;
+	        $rootScope.$apply(function () {
+	          callback.apply(socket, args);
+	        });
+	      });
+	    },
+	    emit: function (eventName, data, callback) {
+	      socket.emit(eventName, data, function () {
+	        var args = arguments;
+	        $rootScope.$apply(function () {
+	          if (callback) {
+	            callback.apply(socket, args);
+	          }
+	        });
+	      })
+	    }
+	  };
+	});
 
+	app.factory("Auth", function($firebaseAuth) {
+		var ref = new Firebase("URL");
+		return $firebaseAuth(ref);
+	})
 
 	app.config(function() {
 		var config = {
@@ -24,15 +51,11 @@
 		$scope.homeTxt = "Login";
 		$scope.status = "Submit";
 		$scope.success = false;
-		$scope.type = "user";
 		$scope.auth = {
 			email: "",
 			password: "",
+			type: ""
 		};
-		var subData = $.param({
-			email: $scope.auth.username,
-			password: $scope.auth.password
-		});
 
 		$scope.register = false;
 		
@@ -53,20 +76,7 @@
 				  	$scope.status = "Submit";
 					$scope.success = true;
 
-					/*var ref = firebase.database().ref();
-  					var usersRef = ref.child("users");
-					usersRef.child(firebaseUser.uid).set({
-					  type: $scope.type
-					});*/
-					
-
-					var user  = {	
-					   type: $scope.type
-					};
-
-					firebaseRef.child("users").child(firebaseUser.uid).set(user);
-
-					//$window.location.reload();
+					$window.location.href = '/dash';
 
 				}).catch(function(error) {
 					$scope.status = "Try Again";
@@ -77,6 +87,13 @@
 				.then(function(firebaseUser) {
 					$scope.status = "Registration Successful";
 					$scope.success = true;
+
+					var user  = {	
+					   type: $scope.auth.type
+					};
+
+					firebaseRef.child("users").child(firebaseUser.uid).set(user);
+
 					console.log("User " + firebaseUser.uid + " created successfully!");
 				}).catch(function(error) {
 					$scope.status = "Try Again";
@@ -137,7 +154,28 @@
 		};
 	}]);
 
-	
+	app.controller('DashController', ['$scope','$http','$window','$firebase','$firebaseAuth','socket', function($scope,$http,$window,$firebase,$firebaseAuth, socket) {
+		$scope.screen = 0;
+		//var fb = new Firebase("https://counsl-dd6fe.firebaseapp.com/");
+		//var ref = new Firebase("https://counsl-dd6fe.firebaseapp.com/");
+      	
+
+		this.createChat = function(){
+			
+			//if($scope.authObj) {
+			//	console.log($scope.authObj.val());
+				var obj = {
+					//"id": $scope.authObj.uid,
+					"name": prompt("Enter name for chatroom")
+				};
+				socket.emit("addroom", obj);
+			//} else{
+			//	console.log("not logged in");
+			//}
+		
+		};
+	}]);
+
 	function sortByKey(array, key) {
 	    return array.sort(function(a, b) {
 	        var x = a[key]; var y = b[key];

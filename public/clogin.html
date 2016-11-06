@@ -75,7 +75,7 @@
         </header>
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Counsl.me</span>
-            <nav class="mdl-navigation"><a class="mdl-navigation__link" href="/clogin">Counselor Login</a> </nav>
+            <nav class="mdl-navigation"><a class="mdl-navigation__link" href="/">User Login</a> </nav>
         </div>
     </div>
     <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded" ng-controller="homeController as homeCntrl">
@@ -107,7 +107,7 @@
                             <label class="mdl-textfield__label" for="cpwd">Confirm Password</label>
                         </div>
                         <br>
-                        <input type="text" id="type" name="type" ng-model="auth.type" ng-init="auth.type='user'" value="user" hidden="hidden"/>
+                        <input type="text" id="type" name="type" ng-model="auth.type" ng-init="auth.type='counselor'" value="counselor" hidden="hidden"/>
                         <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="submit" type="submit" form="homeForm" value="{{status}}" ng-click="homeCntrl.submitForm()">{{status}}</button>
                         <br>
